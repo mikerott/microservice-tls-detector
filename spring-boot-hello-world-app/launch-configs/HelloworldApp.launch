@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/spring-boot-hello-world-app/src/main/java/com/mikerott/springboothelloworld/HelloworldApp.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<mapAttribute key="org.eclipse.debug.core.environmentVariables">
+<mapEntry key="NOT_SECRET" value="Yell it from the rooftops."/>
+<mapEntry key="SECRET" value="Shhhh.  Tell no one."/>
+<mapEntry key="buildBranch" value="NOT SET"/>
+<mapEntry key="buildNumber" value="NOT SET"/>
+<mapEntry key="buildTimestamp" value="NOT SET"/>
+<mapEntry key="git.commit.id.abbrev" value="NOT SET"/>
+</mapAttribute>
+<booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
+<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.mikerott.springboothelloworld.HelloworldApp"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="spring-boot-hello-world-app"/>
+<stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
+</launchConfiguration>
