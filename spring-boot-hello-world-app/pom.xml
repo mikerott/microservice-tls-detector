@@ -187,7 +187,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<fork>true</fork>
-					<mainClass>com.mikerott.App</mainClass>
+					<mainClass>com.mikerott.springboothelloworld.HelloworldApp</mainClass>
 					<!-- <addResources>true</addResources> -->
 				</configuration>
 				<executions>
