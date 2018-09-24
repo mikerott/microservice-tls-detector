@@ -20,12 +20,12 @@ metadata:
   name: hellospring-deployment
   labels:
     app: hellospring
+    run: hello-service
 spec:
   replicas: 3
   selector:
     matchLabels:
       app: hellospring
-      run: hello-service
   template:
     metadata:
       labels:
