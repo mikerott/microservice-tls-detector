@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hellospring-deployment
+  labels:
+    app: hellospring
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hellospring
+  template:
+    metadata:
+      labels:
+        app: hellospring
+    spec:
+      containers:
+      - name: hellospring
+        image: ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}:${BUILD_NUMBER}
+        ports:
+        - containerPort: 80
+        env:
+          - name: SECRET
+            value: "I'm a secret"
+          - name: NOT_SECRET
+            value: "I'm not a secret"
