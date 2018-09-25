@@ -3,33 +3,28 @@ kind: Service
 metadata:
   name: hello-service
   labels:
-    run: hello-service
+    app: hellospring-app
 spec:
   type: NodePort
   ports:
   - port: 80
     targetPort: 8080
     protocol: TCP
-    name: http
   selector:
-    run: hello-service
+    app: hellospring-app
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hellospring-deployment
   labels:
-    app: hellospring
-    run: hello-service
+    app: hellospring-app
 spec:
   replicas: 3
-  selector:
-    matchLabels:
-      app: hellospring
   template:
     metadata:
       labels:
-        app: hellospring
+        app: hellospring-app
     spec:
       containers:
       - name: hellospring
