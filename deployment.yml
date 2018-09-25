@@ -21,6 +21,9 @@ metadata:
     app: hellospring-app
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+      app: hellospring
   template:
     metadata:
       labels:
