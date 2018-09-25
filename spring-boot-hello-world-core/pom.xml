@@ -12,10 +12,8 @@
 	<artifactId>spring-boot-hello-world-core</artifactId>
 
 	<properties>
-		<buildBranch>${env.BRANCH_NAME}</buildBranch>
 		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss.SSSZ</maven.build.timestamp.format>
 		<buildTimestamp>${maven.build.timestamp}</buildTimestamp>
-		<buildNumber>${env.BUILD_NUMBER}</buildNumber>
 		<!-- git-commit-id-plugin doesn't work (v2.2.0) with git worktree, this
 			allows skipping plugin when simultaneously working in multiple branches -->
 		<git.commit.id.skip>false</git.commit.id.skip>
@@ -24,7 +22,7 @@
 	</properties>
 
 	<dependencies>
-	
+
 		<!-- swagger -->
 		<dependency>
 			<groupId>io.springfox</groupId>

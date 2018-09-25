@@ -23,19 +23,13 @@ public class VersionInfo {
 	@JsonProperty(value = "build_timestamp")
 	private String buildTimestamp;
 
-	@ApiModelProperty(value = "The build number")
-	@JsonProperty(value = "build_number")
-	private String buildNumber;
-
 	@Autowired
-	public VersionInfo(@Value("${buildBranch}") String gitBranch,
+	public VersionInfo(@Value("${git.branch}") String gitBranch,
 			@Value("${git.commit.id.abbrev}") String gitCommitId,
-			@Value("${buildTimestamp}") String buildTimestamp,
-			@Value("${buildNumber}") String buildNumber) {
+			@Value("${buildTimestamp}") String buildTimestamp) {
 		this.gitBranch = gitBranch;
 		this.gitCommitId = gitCommitId;
 		this.buildTimestamp = buildTimestamp;
-		this.buildNumber = buildNumber;
 	}
 
 	public String getGitBranch() {
@@ -62,11 +56,4 @@ public class VersionInfo {
 		this.buildTimestamp = buildTimestamp;
 	}
 
-	public String getBuildNumber() {
-		return buildNumber;
-	}
-
-	public void setBuildNumber(String buildNumber) {
-		this.buildNumber = buildNumber;
-	}
 }
