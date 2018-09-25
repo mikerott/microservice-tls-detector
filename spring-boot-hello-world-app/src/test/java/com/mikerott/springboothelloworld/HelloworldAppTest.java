@@ -13,11 +13,7 @@ import org.junit.Test;
 public class HelloworldAppTest {
 	Set<String> requiredEnvVars = new TreeSet<>(Arrays.asList(
 			"SECRET",
-			"NOT_SECRET",
-			"buildBranch",
-			"buildNumber",
-			"buildTimestamp",
-			"git.commit.id.abbrev"));
+			"NOT_SECRET"));
 
 	@After
 	public void cleanup() {

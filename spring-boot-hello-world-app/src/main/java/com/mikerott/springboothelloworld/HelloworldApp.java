@@ -27,11 +27,7 @@ public class HelloworldApp {
 	private static void checkPrereqs() {
 		Set<String> requiredEnvVars = new TreeSet<>(Arrays.asList(
 				"SECRET",
-				"NOT_SECRET",
-				"buildBranch",
-				"buildNumber",
-				"buildTimestamp",
-				"git.commit.id.abbrev"));
+				"NOT_SECRET"));
 
 		List<String> missingEnvVars = new ArrayList<>();
 		for (String key : requiredEnvVars) {
