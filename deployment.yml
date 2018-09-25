@@ -26,7 +26,8 @@ spec:
       app: hellospring
   template:
     metadata:
-      labels: hellospring-app
+      labels:
+        app: hellospring
     spec:
       containers:
       - name: hellospring
