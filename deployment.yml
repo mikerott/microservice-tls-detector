@@ -23,11 +23,11 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: hellospring
+      app: hellospring-app
   template:
     metadata:
       labels:
-        app: hellospring
+        app: hellospring-app
     spec:
       containers:
       - name: hellospring
