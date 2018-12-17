@@ -12,8 +12,7 @@ import org.junit.Test;
 
 public class HelloworldAppTest {
 	Set<String> requiredEnvVars = new TreeSet<>(Arrays.asList(
-			"SECRET",
-			"NOT_SECRET"));
+			"AN_ENV_VAR"));
 
 	@After
 	public void cleanup() {
@@ -23,7 +22,7 @@ public class HelloworldAppTest {
 	}
 
 	@Test
-	public void testNonSet() throws Exception {
+	public void testNoneSet() throws Exception {
 		Method checkPrereqs = HelloworldApp.class.getDeclaredMethod("checkPrereqs", (Class<?>[]) null);
 		checkPrereqs.setAccessible(true);
 		try {

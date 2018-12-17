@@ -19,15 +19,14 @@ import com.mikerott.springboothelloworld.utils.ExternalizedStringUtils;
 public class HelloworldApp {
 
 	public static void main(String[] args) {
-		//checkPrereqs();
+		checkPrereqs();
 		System.setProperty("org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH", "true");
 		SpringApplication.run(HelloworldApp.class, args);
 	}
 
 	private static void checkPrereqs() {
 		Set<String> requiredEnvVars = new TreeSet<>(Arrays.asList(
-				"SECRET",
-				"NOT_SECRET"));
+				"AN_ENV_VAR"));
 
 		List<String> missingEnvVars = new ArrayList<>();
 		for (String key : requiredEnvVars) {
