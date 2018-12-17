@@ -9,8 +9,8 @@
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="NOT_SECRET" value="Yell it from the rooftops."/>
 <mapEntry key="SECRET" value="Shhhh.  Tell no one."/>
-<mapEntry key="git.branch" value="NOT SET"/>
 <mapEntry key="buildTimestamp" value="NOT SET"/>
+<mapEntry key="git.branch" value="NOT SET"/>
 <mapEntry key="git.commit.id.abbrev" value="NOT SET"/>
 </mapAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>

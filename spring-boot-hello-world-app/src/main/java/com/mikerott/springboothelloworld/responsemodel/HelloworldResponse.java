@@ -10,15 +10,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mikerott.springboothelloworld.VersionInfo;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "Hello World Response", description = "Say hello world, with some other bits of data")
 public class HelloworldResponse {
+
+	@ApiModelProperty(required = true, example = "Hello, Bob")
+	private String message;
 
 	@JsonIgnore
 	private Map<String, String> environment = new HashMap<>();
 
 	@JsonProperty(value = "version_info")
 	private VersionInfo versionInfo;
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
 	public VersionInfo getVersionInfo() {
 		return versionInfo;

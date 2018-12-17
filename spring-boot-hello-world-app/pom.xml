@@ -11,22 +11,12 @@
 	<artifactId>spring-boot-hello-world-app</artifactId>
 	<packaging>jar</packaging>
 
-	<properties>
-		<powermock.version>1.7.1</powermock.version>
-		<sonar.projectName>${project.artifactId}</sonar.projectName>
-		<sonar.projectKey>${githubOrg}:${githubRepo}:${gitBranch}:${project.artifactId}</sonar.projectKey>
-		<!-- if we have sonar turned on, ignore swagger UI -->
-		<sonar.exclusions>src/main/webapp/**/*,src/main/webapp/*</sonar.exclusions>
-		<spring.boot.version>1.5.4.RELEASE</spring.boot.version>
-	</properties>
-
 	<dependencies>
 
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<version>${spring.boot.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
@@ -38,7 +28,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-logging</artifactId>
-			<version>${spring.boot.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>ch.qos.logback</groupId>
@@ -50,26 +39,22 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-actuator</artifactId>
-			<version>${spring.boot.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<version>${spring.boot.version}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 
 		<!-- Jackson -->
@@ -93,6 +78,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
 			<scope>compile</scope>
 		</dependency>
 
@@ -104,7 +90,6 @@
 		<dependency>
 			<groupId>org.skyscreamer</groupId>
 			<artifactId>jsonassert</artifactId>
-			<version>1.5.0</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -154,18 +139,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-mockito2</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<scope>test</scope>
@@ -197,6 +170,51 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<configuration>
+					<dataFile>${project.build.directory}/jacoco.exec</dataFile>
+					<outputDirectory>${project.build.directory}/site</outputDirectory>
+					<rules>
+						<rule>
+							<element>BUNDLE</element>
+							<limits>
+								<limit>
+									<counter>LINE</counter>
+									<value>COVEREDRATIO</value>
+									<minimum>0.34</minimum>
+								</limit>
+								<limit>
+									<counter>BRANCH</counter>
+									<value>COVEREDRATIO</value>
+									<minimum>0.30</minimum>
+								</limit>
+								<limit>
+									<counter>CLASS</counter>
+									<value>COVEREDRATIO</value>
+									<minimum>0.36</minimum>
+								</limit>
+								<limit>
+									<counter>INSTRUCTION</counter>
+									<value>COVEREDRATIO</value>
+									<minimum>0.34</minimum>
+								</limit>
+								<limit>
+									<counter>COMPLEXITY</counter>
+									<value>COVEREDRATIO</value>
+									<minimum>0.24</minimum>
+								</limit>
+								<limit>
+									<counter>METHOD</counter>
+									<value>COVEREDRATIO</value>
+									<minimum>0.22</minimum>
+								</limit>
+							</limits>
+						</rule>
+					</rules>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

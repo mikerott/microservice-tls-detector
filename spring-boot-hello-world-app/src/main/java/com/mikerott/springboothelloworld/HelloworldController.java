@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mikerott.springboothelloworld.responsemodel.HelloworldResponse;
+import com.mikerott.springboothelloworld.utils.ExternalizedStringUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,8 +39,8 @@ public class HelloworldController {
 	public ResponseEntity<HelloworldResponse> getHelloWorld() {
 		HelloworldResponse helloworldResponse = new HelloworldResponse();
 		helloworldResponse.setVersionInfo(versionInfo);
-		helloworldResponse.setEnvironment("SECRET", System.getenv("SECRET"));
-		helloworldResponse.setEnvironment("NOT_SECRET", System.getenv("NOT_SECRET"));
+		helloworldResponse.setEnvironment("AN_ENV_VAR", ExternalizedStringUtils.getExternalValue("AN_ENV_VAR"));
+		helloworldResponse.setMessage("Hello, Bob");
 		return new ResponseEntity<>(helloworldResponse, HttpStatus.OK);
 	}
 }
