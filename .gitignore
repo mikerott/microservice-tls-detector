@@ -1,4 +1,43 @@
-/.metadata/
-/.recommenders/
+#---------------------------
+# Maven
+#---------------------------
 target/
-.ibm-project
+.factorypath
+
+#---------------------------
+# Intelij
+#---------------------------
+*.iml
+.classpath
+.project
+.settings/**
+.idea/
+**/.idea/*
+!.idea/copyright
+
+#---------------------------
+# Eclipse
+#---------------------------
+.metadata
+.settings
+.recommenders/
+bin/
+RemoteSystemsTempFiles/
+
+#---------------------------
+# OSX
+#---------------------------
+.DS_Store
+clientdb.xml
+
+#---------------------------
+# Windows
+#---------------------------
+Thumbs.db
+
+#---------------------------
+# Editor byproducts (Vim)
+#---------------------------
+*.swp
+*.swo
+*.orig
