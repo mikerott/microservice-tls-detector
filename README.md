@@ -38,6 +38,15 @@ After `mvn clean install`, you can open `tls-detector-jacoco-report-aggregator/t
 
 I did not set up an automated devops workflow, but if I had, there would have also been quality gates tied to [SonarQube](https://www.sonarqube.org/).
 
+I would have also set up another maven module for running integration tests that would have:
+
+1. started the Spring Boot app
+2. executed the REST API using servers known to support only TLS, TLS+SSL, etc, to confirm JVM configuration is correct
+
+## Devops
+
+Knowing the JVM needs configured carefully, the Dockerfile needs some work to make sure, and the application should self-check during startup that all protocols are properly enabled by calling `SSLContext.getInstance(protocol)` with all six protocols, ensuring no exceptions.
+
 ---
 
 # Remaining Work

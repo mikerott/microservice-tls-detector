@@ -37,16 +37,16 @@ public class TLSDetectorService {
 	// From:
 	// https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#SSLContext
 	// remember to start the JVM with
-	// -Dhttps.protocols=SSLv3,TLSv1,TLSv1.1,TLSv1.2
-	// -Djdk.tls.client.protocols=SSLv3,TLSv1,TLSv1.1,TLSv1.2
+	// -Dhttps.protocols=SSLv2Hello,SSLv2,SSLv3,TLSv1,TLSv1.1,TLSv1.2
+	// -Djdk.tls.client.protocols=SSLv2Hello,SSLv2,SSLv3,TLSv1,TLSv1.1,TLSv1.2
 	private static Set<String> PROTOCOLS = new LinkedHashSet<>();
 	static {
-		PROTOCOLS.add("SSLv2Hello");
-		PROTOCOLS.add("SSLv2");
 		PROTOCOLS.add("TLSv1.2");
 		PROTOCOLS.add("TLSv1.1");
 		PROTOCOLS.add("TLSv1");
 		PROTOCOLS.add("SSLv3");
+		PROTOCOLS.add("SSLv2");
+		PROTOCOLS.add("SSLv2Hello");
 	}
 
 	// we trust all certificates because the assignment is to check TLS, not the
