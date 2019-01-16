@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ProjectManagerExceptionHandler.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">Jacoco Report Aggregator</a> &gt; <a href="../index.html" class="el_bundle">tls-detector-app</a> &gt; <a href="index.source.html" class="el_package">com.mikerott.tlsdetector</a> &gt; <span class="el_source">ProjectManagerExceptionHandler.java</span></div><h1>ProjectManagerExceptionHandler.java</h1><pre class="source lang-java linenums">package com.mikerott.tlsdetector;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.WebRequest;
+
+import com.mikerott.tlsdetector.model.model.error.ErrorObject;
+import com.mikerott.tlsdetector.responsemodel.ErrorObjectResponse;
+import com.mikerott.tlsdetector.responsemodel.ErrorResponse;
+
+@ControllerAdvice
+<span class="nc" id="L29">public class ProjectManagerExceptionHandler {</span>
+
+<span class="nc" id="L31">	private static final Logger logger = Logger.getLogger(ProjectManagerExceptionHandler.class.getName());</span>
+
+	private static final String DEFAULT_ERROR_MESSAGE = &quot;An exception of type %s with message '%s' occurred.  Please report the error to the proper support channel(s).&quot;;
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST) // 400
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public @ResponseBody ResponseEntity&lt;ErrorResponse&gt; methodArgumentNotValidExceptionHandler(
+			final MethodArgumentNotValidException e, final WebRequest request,
+			final HttpServletRequest httpServletRequest) {
+
+<span class="nc" id="L41">		List&lt;ErrorObject&gt; errorObjects = new ArrayList&lt;ErrorObject&gt;();</span>
+<span class="nc" id="L42">		List&lt;ObjectError&gt; objectErrors = e.getBindingResult().getAllErrors();</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">		for (ObjectError objectError : objectErrors) {</span>
+
+<span class="nc" id="L45">			StringBuffer message = new StringBuffer();</span>
+
+<span class="nc bnc" id="L47" title="All 2 branches missed.">			if (objectError instanceof FieldError) {</span>
+<span class="nc" id="L48">				message.append('\'');</span>
+<span class="nc" id="L49">				message.append(((FieldError) objectError).getRejectedValue());</span>
+<span class="nc" id="L50">				message.append('\'');</span>
+<span class="nc" id="L51">				message.append(&quot; is not an acceptable value for &quot;);</span>
+<span class="nc" id="L52">				message.append(((FieldError) objectError).getField());</span>
+<span class="nc" id="L53">				message.append(&quot; in &quot;);</span>
+			}
+
+<span class="nc" id="L56">			message.append(objectError.getObjectName());</span>
+<span class="nc" id="L57">			message.append(':');</span>
+<span class="nc" id="L58">			message.append(' ');</span>
+
+<span class="nc" id="L60">			message.append(objectError.getDefaultMessage());</span>
+
+<span class="nc" id="L62">			errorObjects.add(new ErrorObject(objectError.getCode() + &quot;:&quot; + message.toString(), logger));</span>
+
+<span class="nc" id="L64">		}</span>
+
+<span class="nc" id="L66">		return handleExceptionInternal(e, errorObjects, HttpStatus.BAD_REQUEST, request);</span>
+	}
+
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // 500
+	@ExceptionHandler(Exception.class) // 500
+	public @ResponseBody ResponseEntity&lt;ErrorResponse&gt; defaultErrorHandler(final Exception e,
+			final WebRequest request) {
+		ErrorObject errorObject;
+		// This is truly an unhandled exception by virtue of us ending up in the
+		// defaultErrorHandler. We should log it:
+<span class="nc" id="L76">		logger.log(Level.SEVERE, &quot;An unhandled exception occurred&quot;, e);</span>
+<span class="nc" id="L77">		errorObject = createErrorObject(e, null);</span>
+<span class="nc" id="L78">		return handleExceptionInternal(e, Arrays.asList(errorObject), HttpStatus.INTERNAL_SERVER_ERROR, request);</span>
+	}
+
+	private ResponseEntity&lt;ErrorResponse&gt; handleExceptionInternal(Exception ex, List&lt;ErrorObject&gt; errors,
+			HttpStatus status, WebRequest request) {
+<span class="nc" id="L83">		HttpHeaders headers = new HttpHeaders();</span>
+<span class="nc" id="L84">		headers.setContentType(MediaType.APPLICATION_JSON);</span>
+
+<span class="nc" id="L86">		List&lt;ErrorObjectResponse&gt; errorResponses = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">		for (ErrorObject error : errors) {</span>
+<span class="nc" id="L88">			errorResponses.add(new ErrorObjectResponse(error));</span>
+<span class="nc" id="L89">		}</span>
+
+<span class="nc" id="L91">		ErrorResponse errorResponse = new ErrorResponse();</span>
+<span class="nc" id="L92">		errorResponse.setErrors(errorResponses);</span>
+
+<span class="nc" id="L94">		return new ResponseEntity&lt;ErrorResponse&gt;(errorResponse, headers, status);</span>
+	}
+
+	protected ResponseEntity&lt;Object&gt; handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
+			HttpStatus status, WebRequest request) {
+<span class="nc" id="L99">		logger.log(Level.SEVERE, &quot;An unhandled exception occurred&quot;, ex);</span>
+<span class="nc" id="L100">		return new ResponseEntity&lt;Object&gt;(body, headers, status);</span>
+	}
+
+	private ErrorObject createErrorObject(Exception e, HttpStatus defaultCode) {
+<span class="nc bnc" id="L104" title="All 4 branches missed.">		return new ErrorObject(String.format(DEFAULT_ERROR_MESSAGE, e == null ? &quot;unknown&quot; : e.getClass().getName(),</span>
+<span class="nc" id="L105">				e == null ? &quot;unknown&quot; : e.getMessage()), logger);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

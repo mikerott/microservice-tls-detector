@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>VersionInfo.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">Jacoco Report Aggregator</a> &gt; <a href="../index.html" class="el_bundle">tls-detector-core</a> &gt; <a href="index.source.html" class="el_package">com.mikerott.tlsdetector</a> &gt; <span class="el_source">VersionInfo.java</span></div><h1>VersionInfo.java</h1><pre class="source lang-java linenums">package com.mikerott.tlsdetector;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
+
+@Component
+public class VersionInfo {
+
+	@ApiModelProperty(value = &quot;The git branch from which this build originated&quot;)
+	@JsonProperty(value = &quot;git_branch&quot;)
+	private String gitBranch;
+
+	@ApiModelProperty(value = &quot;The git commit from which this build originated&quot;)
+	@JsonProperty(value = &quot;git_commit_id&quot;)
+	private String gitCommitId;
+
+	@ApiModelProperty(value = &quot;The timestamp at which this build was made&quot;)
+	@JsonProperty(value = &quot;build_timestamp&quot;)
+	private String buildTimestamp;
+
+	@Autowired
+	public VersionInfo(@Value(&quot;${git.branch}&quot;) String gitBranch,
+			@Value(&quot;${git.commit.id.abbrev}&quot;) String gitCommitId,
+<span class="nc" id="L29">			@Value(&quot;${buildTimestamp}&quot;) String buildTimestamp) {</span>
+<span class="nc" id="L30">		this.gitBranch = gitBranch;</span>
+<span class="nc" id="L31">		this.gitCommitId = gitCommitId;</span>
+<span class="nc" id="L32">		this.buildTimestamp = buildTimestamp;</span>
+<span class="nc" id="L33">	}</span>
+
+	public String getGitBranch() {
+<span class="nc" id="L36">		return gitBranch;</span>
+	}
+
+	public void setGitBranch(String gitBranch) {
+<span class="nc" id="L40">		this.gitBranch = gitBranch;</span>
+<span class="nc" id="L41">	}</span>
+
+	public String getGitCommitId() {
+<span class="nc" id="L44">		return gitCommitId;</span>
+	}
+
+	public void setGitCommitId(String gitCommitId) {
+<span class="nc" id="L48">		this.gitCommitId = gitCommitId;</span>
+<span class="nc" id="L49">	}</span>
+
+	public String getBuildTimestamp() {
+<span class="nc" id="L52">		return buildTimestamp;</span>
+	}
+
+	public void setBuildTimestamp(String buildTimestamp) {
+<span class="nc" id="L56">		this.buildTimestamp = buildTimestamp;</span>
+<span class="nc" id="L57">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

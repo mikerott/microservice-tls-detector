@@ -1,0 +1,11 @@
+package com.mikerott.tlsdetector;
+
+import org.junit.Test;
+
+public class TLSDetectorAppTest {
+
+	@Test
+	public void test() throws Exception {
+	}
+
+}
