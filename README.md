@@ -5,8 +5,8 @@ For personal testing of various web sites for TLS support.
 
 1. use Maven 3+
 2. use Oracle Java 8 Update 151 or later
-  1. configure `crypto.policy=unlimited` in `$JAVA_HOME/jre/lib/security/java.security`
-  2. comment out `jdk.tls.disabledAlgorithms` property in `$JAVA_HOME/jre/lib/security/java.security`
+    1. configure `crypto.policy=unlimited` in `$JAVA_HOME/jre/lib/security/java.security`
+    2. comment out `jdk.tls.disabledAlgorithms` property in `$JAVA_HOME/jre/lib/security/java.security`
 3. `mvn clean install`
 4. `java -jar tls-detector-app/target/tlsdetector.jar`
 5. visit http://localhost:8080/tlsdetector
@@ -49,11 +49,38 @@ Knowing the JVM needs configured carefully, the Dockerfile needs some work to ma
 
 ---
 
+## A Note about Cipher Algorithms
+
+### The Problem
+
+I tried several sites, including ones I knew supported SSLv3, but the JVM I was using lacked support for the cipher algorithm being used by one of the sites, so this app falsely reported "TLS only" indicator.
+
+SSLv3 is supported according to the [analysis run on SSLlabs for webmail.ontime-express.com](https://globalsign.ssllabs.com/analyze.html?d=webmail.ontime-express.com), but when attempting the SSL handshake with protocol restricted to SSLv3, the JVM throws an exception:
+
+```
+javax.net.ssl.SSLHandshakeException: No appropriate protocol (protocol is disabled or cipher suites are inappropriate)
+```
+
+### The Resolution
+
+Depending on the JRE/JDK version, you might need to [install the JCE policy files or simply set the `crypto.policy=unlimited` property in `$JAVA_HOME/jre/lib/security/java.security`](https://stackoverflow.com/questions/37741142/how-to-install-unlimited-strength-jce-for-java-8-in-os-x).
+
+I'm using Oracle JRE Java 8 Update 171, so I did the following:
+
+1. set `crypto.policy=unlimited` in `$JAVA_HOME/jre/lib/security/java.security`
+2. commented out the `jdk.tls.disabledAlgorithms` property in `$JAVA_HOME/jre/lib/security/java.security`
+
+The list of ciphers from `SSLServerSocketFactory.getSupportedCipherSuites()` did not change after (1), but grew from 66 to 97 after (2).
+
+And indeed the handshake worked for `https://webmail.ontime-express.com`, which resulted in the correct report from this TLS Detector app of TLS _and_ SSL support.
+
+---
+
 # Remaining Work
 
-## Protocol Completion
+## Protocol Support
 
-It appears the JVM I was using has a built-in JCE provider that only supports the following [protocols](https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html):
+The JVM I was using has a built-in JCE provider that only supports the following [protocols](https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html):
 
 * SSLv3
 * TLSv1
@@ -66,31 +93,6 @@ But does _not_ support:
 * SSLv2Hello
 
 This makes sense, considering how ancient and unsecure the latter two are.  However, to be complete about the checks I want to run, I need to use an alternative JCE provider that _does_ support the latter two, like [BouncyCastle](https://www.bouncycastle.org/java.html).  I started going down the road of setting it up as the provider, but due to timeboxing, I stopped and left it as a requirement to finish later.
-
-## Algorithm Completion
-
-### The Problem
-
-I tried several sites, including ones I knew supported SSLv3, but it appears the JVM I was using lacked support for the cipher algorithm being used by one of the sites, so this service reports a false "TLS only" indicator.
-
-SSLv3 is supported according to the [analysis run on SSLlabs for webmail.ontime-express.com](https://globalsign.ssllabs.com/analyze.html?d=webmail.ontime-express.com), but when attempting the SSL handshake with protocol restricted to SSLv3, the JVM throws an exception:
-
-```
-javax.net.ssl.SSLHandshakeException: No appropriate protocol (protocol is disabled or cipher suites are inappropriate)
-```
-
-### The Resolution
-
-Depending in the JRE/JDK version, you might need to [install the JCE policy files or simply set the `crypto.policy=unlimited` property in `$JAVA_HOME/jre/lib/security/java.security`](https://stackoverflow.com/questions/37741142/how-to-install-unlimited-strength-jce-for-java-8-in-os-x).
-
-I'm using Oracle JRE Java 8 Update 171, so I did the following:
-
-1. set `crypto.policy=unlimited` in `$JAVA_HOME/jre/lib/security/java.security`
-2. commented out the `jdk.tls.disabledAlgorithms` property in `$JAVA_HOME/jre/lib/security/java.security`
-
-The list of ciphers from `SSLServerSocketFactory.getSupportedCipherSuites()` did not change after (1), but grew from 66 to 97 after (2).
-
-And indeed the handshake worked for `https://webmail.ontime-express.com`, which resulted in the correct report from this TLS Detector app of TLS _and_ SSL support.
 
 ## Performance
 
