@@ -41,6 +41,8 @@ public class TLSDetectorService {
 	// -Djdk.tls.client.protocols=SSLv3,TLSv1,TLSv1.1,TLSv1.2
 	private static Set<String> PROTOCOLS = new LinkedHashSet<>();
 	static {
+		PROTOCOLS.add("SSLv2Hello");
+		PROTOCOLS.add("SSLv2");
 		PROTOCOLS.add("TLSv1.2");
 		PROTOCOLS.add("TLSv1.1");
 		PROTOCOLS.add("TLSv1");
@@ -78,6 +80,7 @@ public class TLSDetectorService {
 			// gotta iterate over all the protocols and try a handshake
 			for (String protocol : PROTOCOLS) {
 				try {
+
 					SSLContext sc = SSLContext.getInstance(protocol);
 					sc.init(null, trustAllCerts, new java.security.SecureRandom());
 					SSLSocket sslSocket = (SSLSocket) sc.getSocketFactory().createSocket(
